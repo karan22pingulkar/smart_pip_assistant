@@ -1,0 +1,22 @@
+# Virtual Environment
+venv/
+ENV/
+env/
+
+# Python bytecode/caches
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.swp
+
+# Local App Configurations (We don't want to overwrite other users' preferences)
+config/settings.json
