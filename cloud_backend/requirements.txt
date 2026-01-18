@@ -1,0 +1,4 @@
+flask
+flask-socketio
+flask-cors
+eventlet==0.33.3
