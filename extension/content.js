@@ -39,29 +39,12 @@ function injectPipButton() {
 
         // Trigger network payload transfer on click
         btn.addEventListener('click', () => {
-            // Read saved deployment server address dynamically from local Chrome runtime storage
-            chrome.storage.local.get(['cloudUrl'], (result) => {
-                const baseServerUrl = result.cloudUrl ? result.cloudUrl.replace(/\/$/, "") : "https://your-pip-project.onrender.com";
-                const targetEndpoint = `${baseServerUrl}/open-pip`;
+            const videoUrl = window.location.href;
+            console.log(`[PiP Linker] Sending payload to background context wrapper: ${videoUrl}`);
 
-                console.log(`[PiP Linker] Forwarding stream request to endpoint: ${targetEndpoint}`);
-
-                fetch(targetEndpoint, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ url: window.location.href })
-                })
-                    .then(res => {
-                        if (res.ok) {
-                            console.log('[PiP Linker] Signal successfully broadcasted to cloud orchestration mesh.');
-                        } else {
-                            alert(`Server returned an error status: ${res.status}`);
-                        }
-                    })
-                    .catch(err => {
-                        console.error('[PiP Linker] Dispatch error:', err);
-                        alert('Cloud endpoint configuration mismatch or server is sleeping. Right-click the extension icon and verify your Options URL setup.');
-                    });
+            // Safe message delegation over to background.js
+            chrome.runtime.sendMessage({ action: "open_pip", url: videoUrl }, (response) => {
+                console.log('[PiP Linker] Signal pushed to background agent context pipelines.');
             });
         });
 

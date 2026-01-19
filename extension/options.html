@@ -2,13 +2,63 @@
 <html>
 
 <head>
-    <title>PiP Settings</title>
+    <title>Smart PiP Assistant Configuration</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            width: 320px;
+            background: #141414;
+            color: #fff;
+        }
+
+        h3 {
+            margin-top: 0;
+            color: #E50914;
+        }
+
+        input {
+            width: 93%;
+            padding: 10px;
+            border: 1px solid #333;
+            background: #222;
+            color: #fff;
+            border-radius: 4px;
+            margin-bottom: 12px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #E50914;
+            color: white;
+            border: none;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #FF1E27;
+        }
+
+        #status {
+            margin-top: 10px;
+            font-size: 13px;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
 </head>
 
-<body style="padding: 20px; font-family: sans-serif; width: 300px;">
-    <h3>Configure Cloud Endpoint</h3>
-    <input type="text" id="urlInput" style="width: 100%; padding: 6px;" placeholder="https://your-app.onrender.com">
-    <button id="saveBtn" style="margin-top: 10px; padding: 6px 12px; cursor: pointer;">Save Endpoint</button>
+<body>
+    <h3>☁️ Cloud Orchestration Setup</h3>
+    <p style="font-size: 12px; color: #aaa;">Input your deployed backend server core address configuration link below:
+    </p>
+    <input type="text" id="serverUrl" placeholder="https://your-pip-project.onrender.com">
+    <button id="saveBtn">Save Endpoint Connection</button>
+    <div id="status"></div>
+
     <script src="options.js"></script>
 </body>
 

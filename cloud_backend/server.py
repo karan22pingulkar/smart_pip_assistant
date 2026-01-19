@@ -26,7 +26,9 @@ def open_pip():
     return jsonify({"status": "error"}), 400
 
 
-if __name__ == '__main__':
-    # Render assigns a port dynamically via environment variables
+if __name__ == "__main__":
+    # Render sets the PORT environment variable automatically
     port = int(os.environ.get("PORT", 5000))
-    socketio.run(app, host='0.0.0.0', port=port)
+
+    # Standard production WSGI deployment engine wrapper configuration
+    socketio.run(app, host="0.0.0.0", port=port, allow_unsafe_werkzeug=True)

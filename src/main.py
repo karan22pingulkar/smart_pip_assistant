@@ -1,18 +1,26 @@
 import sys
+import os
+import json
 import socketio
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtCore import pyqtSignal, QObject
 from utils.config_manager import ConfigManager
 from core.pip_window import PipWindow
 
-# Replace this placeholder link with your live Render Web URL after deployment!
+# Fallback defaults if config file is absent
 DEFAULT_URL = "https://your-pip-project.onrender.com"
-config_path = os.path.join(os.path.dirname(
-    os.path.dirname(__file__)), "config.json")
+
+# Correct path lookup matching your project setup root
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+config_path = os.path.join(BASE_DIR, "config.json")
 
 if os.path.exists(config_path):
-    with open(config_path, "r") as f:
-        CLOUD_SERVER_URL = json.load(f).get("CLOUD_SERVER_URL", DEFAULT_URL)
+    try:
+        with open(config_path, "r") as f:
+            CLOUD_SERVER_URL = json.load(f).get(
+                "CLOUD_SERVER_URL", DEFAULT_URL)
+    except Exception:
+        CLOUD_SERVER_URL = DEFAULT_URL
 else:
     CLOUD_SERVER_URL = DEFAULT_URL
 

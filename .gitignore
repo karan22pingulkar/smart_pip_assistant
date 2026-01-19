@@ -23,3 +23,7 @@ config/settings.json
 
 *.json
 .config.json
+build/
+dist/
+*.exe
+*.spec
