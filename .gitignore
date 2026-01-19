@@ -22,3 +22,4 @@ Thumbs.db
 config/settings.json
 
 *.json
+.config.json

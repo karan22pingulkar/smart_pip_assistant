@@ -6,7 +6,15 @@ from utils.config_manager import ConfigManager
 from core.pip_window import PipWindow
 
 # Replace this placeholder link with your live Render Web URL after deployment!
-CLOUD_SERVER_URL = "https://your-pip-project.onrender.com"
+DEFAULT_URL = "https://your-pip-project.onrender.com"
+config_path = os.path.join(os.path.dirname(
+    os.path.dirname(__file__)), "config.json")
+
+if os.path.exists(config_path):
+    with open(config_path, "r") as f:
+        CLOUD_SERVER_URL = json.load(f).get("CLOUD_SERVER_URL", DEFAULT_URL)
+else:
+    CLOUD_SERVER_URL = DEFAULT_URL
 
 
 class CloudBridge(QObject):
