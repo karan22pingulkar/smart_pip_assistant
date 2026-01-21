@@ -3,36 +3,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveButton = document.getElementById('saveBtn');
     const statusText = document.getElementById('status');
 
-    // 1. Fetch current runtime value profile configurations
+    // Load saved configurations
     chrome.storage.local.get(['CLOUD_SERVER_URL'], (result) => {
         if (result.CLOUD_SERVER_URL) {
             urlInput.value = result.CLOUD_SERVER_URL;
+            console.log("Current stored URL config:", result.CLOUD_SERVER_URL);
         }
     });
 
-    // 2. Commit configuration updates
+    // Save configuration updates
     saveButton.addEventListener('click', () => {
-        let cleanUrl = urlInput.value.trim();
-
-        // Strip trailing slash if present
-        if (cleanUrl.endsWith('/')) {
-            cleanUrl = cleanUrl.slice(0, -1);
-        }
+        let cleanUrl = urlInput.value.trim().replace(/\/$/, ""); // Automatically strips trailing slash
 
         if (!cleanUrl) {
-            statusText.innerText = "❌ Please enter a valid URL endpoint.";
+            statusText.innerText = "❌ URL can't be blank";
             statusText.style.color = "#E50914";
             return;
         }
 
         chrome.storage.local.set({ 'CLOUD_SERVER_URL': cleanUrl }, () => {
-            statusText.innerText = "💾 Configuration Saved Successfully!";
+            statusText.innerText = "💾 Saved Successfully!";
             statusText.style.color = "#2ecc71";
-            console.log(`Cloud endpoint targeting updated explicitly to: ${cleanUrl}`);
+            console.log("Storage committed configuration:", cleanUrl);
 
-            setTimeout(() => {
-                statusText.innerText = "";
-            }, 2500);
+            // Double check validation check
+            chrome.storage.local.get(['CLOUD_SERVER_URL'], (verify) => {
+                console.log("Double checking storage allocation:", verify.CLOUD_SERVER_URL);
+            });
         });
     });
 });

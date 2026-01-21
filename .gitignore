@@ -27,3 +27,12 @@ build/
 dist/
 *.exe
 *.spec
+
+# PyInstaller / Build outputs (Crucial!)
+build/
+dist/
+*.spec
+main.exe
+
+
+

@@ -1,17 +1,19 @@
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "open_pip") {
 
-        // Dynamically extract production configuration keys from client memory storage 
+        // Dynamically query client memory engine assets
         chrome.storage.local.get(['CLOUD_SERVER_URL'], (result) => {
             const serverUrl = result.CLOUD_SERVER_URL;
 
             if (!serverUrl) {
-                console.error("Missing server configuration. Please configure the extension options.");
-                sendResponse({ status: "error", error: "Missing Server Endpoint Configuration" });
+                const errorMsg = "⚠️ Production endpoint configuration missing! Right-click the extension icon and select Options to configure your Render URL.";
+                console.error(errorMsg);
+                // Alert the user directly on their active page via content script channel
+                sendResponse({ status: "error", error: errorMsg });
                 return;
             }
 
-            console.log(`[Production Linker] Dispatching stream request payload to cloud endpoint: ${serverUrl}/open-pip`);
+            console.log(`[Production Gateway] Dispatching payload to endpoint: ${serverUrl}/open-pip`);
 
             fetch(`${serverUrl}/open-pip`, {
                 method: 'POST',
@@ -21,19 +23,19 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 body: JSON.stringify({ url: request.url })
             })
                 .then(response => {
-                    if (!response.ok) throw new Error(`Server returned status code: ${response.status}`);
+                    if (!response.ok) throw new Error(`Server returned network status code: ${response.status}`);
                     return response.json();
                 })
                 .then(data => {
-                    console.log("Cloud execution framework response received:", data);
+                    console.log("Transmission wave received successfully by cloud instance:", data);
                     sendResponse({ status: "success", data: data });
                 })
                 .catch(err => {
-                    console.error("Cloud distribution gateway route error:", err);
+                    console.error("Cloud distribution core route connection fault:", err);
                     sendResponse({ status: "error", error: err.message });
                 });
         });
 
-        return true; // Keep the message channel open asynchronously
+        return true; // Keep asynchronous framework message boundary open
     }
 });
